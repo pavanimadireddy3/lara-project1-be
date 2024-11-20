@@ -33,4 +33,21 @@ public String sendMail(String username, String verificationCode) throws Exceptio
 	emailSender.send(mimeMessage);
 	return "success";
 }
-}
+ public String forgottenPassword(String email) throws Exception {
+	 MimeMessage mimeMessage = emailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
+		StringBuffer htmlMsg = new StringBuffer();
+		htmlMsg.append("<h1> Reset your password </h1>");
+		htmlMsg.append("<form action= 'http://localhost:9090/person/resestPassword' method = 'post'>");
+		htmlMsg.append("New Password: <input type = 'password' name= 'password'><br>");
+		htmlMsg.append("Confirm Password: <input type = 'password' name= 'password'><br>");
+		htmlMsg.append("<input type='hidden' name='email' value='"+email + "'>");
+		htmlMsg.append("<input type='submit' value='change password'>");
+		htmlMsg.append("</form>");
+		helper.setText(htmlMsg.toString(), true);
+		helper.setTo(email);
+		helper.setSubject("reset password");
+		emailSender.send(mimeMessage);
+		return "Mail sent to " + email + " to reset password";
+ }
+ }

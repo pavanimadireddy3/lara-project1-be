@@ -42,4 +42,13 @@ public Person save(Person person) throws Exception {
 		}
 		return msg;
 	}
+	public String forgottenPassword(String email) throws Exception{
+		return mailService.forgottenPassword(email);
+	}
+	public String resetPassword(String email, String password) throws Exception{
+		Person person = personRepository.findByUsername(email);
+		person.setPassword(password);
+		personRepository.save(person);
+		return "password changed successfully";
+	}
 }
